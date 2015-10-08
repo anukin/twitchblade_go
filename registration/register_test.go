@@ -17,7 +17,7 @@ func TestUser_Register(t *testing.T) {
 	defer tx.Rollback()
 	defer db.Close()
 	User_1 := user{name: "bobo", password: "lol", transaction: tx}
-	assert.Equal(t, "Successfully registered", User_1.Register(), "User should be able to register successfully")
 	User_2 := user{name: "bobo", password: "lol", transaction: tx}
+	assert.Equal(t, "Successfully registered", User_1.Register(), "User should be able to register successfully")
 	assert.Equal(t, "User exists with same name.Please try a new username", User_2.Register(), "User name should be unique")
 }
