@@ -14,7 +14,7 @@ func (u User) Login() string {
 	//fmt.Println(password)
 	switch {
 	case err == sql.ErrNoRows:
-		return "There is no user with that name, please try again!"
+		return "There is no user with that name, please try again or try registering!"
 	}
 	return "Welcome to Twitchblade"
 }

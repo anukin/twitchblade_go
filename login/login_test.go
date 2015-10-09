@@ -20,5 +20,5 @@ func TestUser_Login_1(t *testing.T) {
 	db, _ := sql.Open("postgres", "user=CodeWalker dbname=twitchblade_test sslmode=disable")
 	tx, _ := db.Begin()
 	User_1 := User{Name: "bobo", Password: "superboy", Transaction: tx}
-	assert.Equal(t, "There is no user with that name, please try again!", User_1.Login(), "Only Valid user should be able to use twitchblade")
+	assert.Equal(t, "There is no user with that name, please try again or try registering!", User_1.Login(), "Only Valid user should be able to use twitchblade")
 }
