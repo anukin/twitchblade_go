@@ -3,20 +3,17 @@ package registration
 import (
 	"database/sql"
 	"fmt"
+	"github.com/anukin/twitchblade/mylib"
 )
 
-type user struct {
-	name        string
-	password    string
-	transaction *sql.Tx
-}
+type User mylib.User
 
-func (u user) Register() string {
+func (u *User) Register() string {
 	var username string
-	err := u.transaction.QueryRow("SELECT * from users WHERE name=$1", u.name).Scan(&username)
+	err := u.Transaction.QueryRow("SELECT * from users WHERE name=$1", u.Name).Scan(&username)
 	switch {
 	case err == sql.ErrNoRows:
-		u.transaction.Query("INSERT INTO users(name, password) VALUES($1, $2)", u.name, u.password)
+		u.Transaction.Query("INSERT INTO users(name, password) VALUES($1, $2)", u.Name, u.Password)
 		return "Successfully registered"
 	default:
 		fmt.Println(err)
