@@ -17,7 +17,7 @@ func TestUser_Follow(t *testing.T) {
 	User_1 := User{Name: "anugrah", Password: "megamind", Transaction: tx}
 	assert.Equal(t, "You have successfully followed red", User_1.Follow("red"), "People should be able to follow their person of choice")
 	//TestUser_Follow_1(t, tx)
-	//assert.Equal(t, "You have already followed this user", User_1.Follow("red"), "People should be able to follow their person of choice once")
+	assert.Equal(t, "You have already followed this user", User_1.Follow("red"), "People should be able to follow their person of choice once")
 	tx.Rollback()
 	db.Close()
 }
