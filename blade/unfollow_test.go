@@ -32,3 +32,15 @@ func TestUser_Unfollow_1(t *testing.T) {
 	tx.Rollback()
 	db.Close()
 }
+
+// func TestUser_Unfollow_2(t *testing.T) {
+// 	db, _ := sql.Open("postgres", "user=CodeWalker dbname=twitchblade_test sslmode=disable")
+// 	tx, err := db.Begin()
+// 	if err != nil {
+// 		fmt.Println(err.Error())
+// 	}
+// 	User_1 := User{Name: "anugrah", Password: "megamind", Transaction: tx}
+// 	assert.Equal(t, "This user does not exist, you can unfollow only existing users.", User_1.Unfollow("bed"), "People should be able to unfollow people who exist")
+// 	tx.Rollback()
+// 	db.Close()
+// }
