@@ -1,4 +1,4 @@
-package registration
+package blade
 
 import (
 	"database/sql"

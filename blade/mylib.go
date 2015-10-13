@@ -1,4 +1,4 @@
-package mylib
+package blade
 
 import "database/sql"
 

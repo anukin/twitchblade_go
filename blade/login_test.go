@@ -1,9 +1,8 @@
-package login
+package blade
 
 import (
 	"database/sql"
 	_ "fmt"
-	_ "github.com/anukin/twitchblade/mylib"
 	_ "github.com/lib/pq"
 	"github.com/stretchr/testify/assert"
 	"testing"

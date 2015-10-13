@@ -1,12 +1,9 @@
-package login
+package blade
 
 import (
 	"database/sql"
 	_ "fmt"
-	"github.com/anukin/twitchblade/mylib"
 )
-
-type User mylib.User
 
 func (u User) Login() string {
 	var username, password string

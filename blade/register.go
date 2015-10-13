@@ -1,12 +1,9 @@
-package registration
+package blade
 
 import (
 	"database/sql"
 	"fmt"
-	"github.com/anukin/twitchblade/mylib"
 )
-
-type User mylib.User
 
 func (u *User) Register() string {
 	var username string

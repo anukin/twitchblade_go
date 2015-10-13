@@ -1,12 +1,9 @@
-package follow
+package blade
 
 import (
 	"database/sql"
 	"fmt"
-	"github.com/anukin/twitchblade/mylib"
 )
-
-type User mylib.User
 
 func (u *User) Follow(name string) string {
 	var username string

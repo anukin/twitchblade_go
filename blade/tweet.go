@@ -1,12 +1,9 @@
-package tweet
+package blade
 
 import (
 	_ "database/sql"
 	_ "fmt"
-	"github.com/anukin/twitchblade/mylib"
 )
-
-type User mylib.User
 
 func (u User) Tweet(msg string) string {
 	//var tweet string
