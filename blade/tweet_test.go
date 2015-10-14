@@ -16,5 +16,6 @@ func TestUser_Tweet(t *testing.T) {
 	//defer tx.Commit()
 	defer db.Close()
 	User_1 := User{Name: "anugrah", Password: "megamind", Transaction: tx}
-	assert.Equal(t, "Successfullly tweeted", User_1.Tweet(msg), "User should be able to tweet")
+	s, _ := User_1.Tweet(msg)
+	assert.Equal(t, "Successfullly tweeted", s, "User should be able to tweet")
 }
