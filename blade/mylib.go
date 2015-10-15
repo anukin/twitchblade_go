@@ -13,6 +13,7 @@ func Stream(username string, transaction *sql.Tx) []Tweetmodel {
 	if err != nil {
 		panic(err)
 	}
+	defer rows.Close()
 	tweets := make([]Tweetmodel, 0)
 	for rows.Next() {
 		var id int

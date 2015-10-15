@@ -20,7 +20,6 @@ func (u *User) iteratedretweet(tweetid int) (bool, int) {
 func (u *User) Retweet(tweetid int) (string, int) {
 	//return "Successfully retweeted tweet by anugrah"
 	if u.alreadyretweeted(tweetid) {
-		//fmt.Println(u.Name)
 		return "You have already retweeted this tweet", tweetid
 	} else {
 		if flag, originalid := u.iteratedretweet(tweetid); flag == false {
