@@ -56,6 +56,8 @@ func TestUser_Retweet_2(t *testing.T) {
 	trax, _ := db.Begin()
 	User_3 := User{Name: "lol", Password: "lol", Transaction: trax}
 	message, _ := User_3.Retweet(retweet_id)
+	trax.Rollback()
+	tx.Rollback()
 	tx.Rollback()
 	assert.Equal(t, "Successfully retweeted tweet by anugrah", message, "User should be able to retweet those tweets of original tweet")
 }
