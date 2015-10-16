@@ -2,7 +2,7 @@ package blade
 
 import (
 	_ "database/sql"
-	"fmt"
+	_ "fmt"
 )
 
 func (u *User) Timeline() []Tweetmodel {
@@ -16,7 +16,6 @@ func (u *User) Timeline() []Tweetmodel {
 		var id int
 		var msg string
 		rows.Scan(&id, &msg)
-		fmt.Println(id, msg)
 		tweet := Tweetmodel{id, msg}
 		tweets = append(tweets, tweet)
 	}

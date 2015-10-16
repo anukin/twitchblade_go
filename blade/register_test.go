@@ -8,7 +8,7 @@ import (
 	"testing"
 )
 
-func TestuserRegister(t *testing.T) {
+func TestUser_Register(t *testing.T) {
 	db, _ := sql.Open("postgres", "user=CodeWalker dbname=twitchblade_test sslmode=disable")
 	tx, err := db.Begin()
 	if err != nil {

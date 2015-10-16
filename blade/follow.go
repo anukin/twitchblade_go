@@ -5,7 +5,8 @@ import (
 	"fmt"
 )
 
-func (u *User) Follow(name string) string {
+func (u *User) Follow(usertofollow User) string {
+	name := usertofollow.Name
 	var username string
 	err := u.Transaction.QueryRow("SELECT name from users where name=$1", name).Scan(&username)
 	switch {

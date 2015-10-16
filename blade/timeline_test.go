@@ -18,7 +18,8 @@ func TestUser_Timeline(t *testing.T) {
 	user1 := User{Name: "lol", Password: "lol", Transaction: tx}
 	_, tweetid := user1.Tweet(msg)
 	user2 := User{Name: "red", Password: "charizard", Transaction: tx}
-	user2.Follow("lol")
+	user3 := User{"lol", "lol", tx}
+	user2.Follow(user3)
 	defer tx.Rollback()
 	defer db.Close()
 	tweets := make([]Tweetmodel, 0)
