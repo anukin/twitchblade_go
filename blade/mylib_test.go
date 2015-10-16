@@ -16,9 +16,9 @@ func TestStream(t *testing.T) {
 	}
 	defer tx.Rollback()
 	defer db.Close()
-	User_1 := User{Name: "red", Password: "charizard", Transaction: tx}
+	user1 := User{Name: "red", Password: "charizard", Transaction: tx}
 	msg := "I will be the very best"
-	_, tweet_id := User_1.Tweet(msg)
+	_, tweet_id := user1.Tweet(msg)
 	tweets := make([]Tweetmodel, 0)
 	assert.Equal(t, append(tweets, Tweetmodel{tweet_id, msg}), Stream("red", tx), "Stream should return all tweets by an user")
 }

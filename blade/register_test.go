@@ -8,7 +8,7 @@ import (
 	"testing"
 )
 
-func TestUser_Register(t *testing.T) {
+func TestuserRegister(t *testing.T) {
 	db, _ := sql.Open("postgres", "user=CodeWalker dbname=twitchblade_test sslmode=disable")
 	tx, err := db.Begin()
 	if err != nil {
@@ -16,8 +16,8 @@ func TestUser_Register(t *testing.T) {
 	}
 	defer tx.Rollback()
 	defer db.Close()
-	User_1 := User{Name: "bobo", Password: "lol", Transaction: tx}
-	User_2 := User{Name: "bobo", Password: "lol", Transaction: tx}
-	assert.Equal(t, "Successfully registered", User_1.Register(), "User should be able to register successfully")
-	assert.Equal(t, "User exists with same name.Please try a new username", User_2.Register(), "User name should be unique")
+	user1 := User{Name: "bobo", Password: "lol", Transaction: tx}
+	user2 := User{Name: "bobo", Password: "lol", Transaction: tx}
+	assert.Equal(t, "Successfully registered", user1.Register(), "User should be able to register successfully")
+	assert.Equal(t, "User exists with same name.Please try a new username", user2.Register(), "User name should be unique")
 }
