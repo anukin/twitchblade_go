@@ -5,13 +5,8 @@ import (
 	"fmt"
 )
 
-//type User mylib.User
-
 func (u *User) Unfollow(usertounfollow User) string {
-	//return "You have successfully unfollowed red"
-	//var usertounfollow string
 	res, _ := u.Transaction.Query("SELECT * from follow where username=$1 and following=$2", u.Name, usertounfollow.Name)
-	//fmt.Println(err)
 	if res.Next() != true {
 		return "You do not follow this user"
 	} else {
