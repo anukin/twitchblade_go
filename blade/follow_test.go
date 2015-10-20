@@ -14,7 +14,7 @@ func TestUser_Follow(t *testing.T) {
 	if err != nil {
 		fmt.Println(err.Error())
 	}
-	user1 := User{Name: "anugrah", Password: "megamind", Transaction: tx}
+	user1 := User{"anugrah", "megamind", tx}
 	user2 := User{"red", "charizard", tx}
 	assert.Equal(t, "You have successfully followed red", user1.Follow(user2), "People should be able to follow their person of choice")
 	tx.Rollback()
@@ -29,7 +29,7 @@ func TestUser_Follow_1(t *testing.T) {
 	}
 	defer tx.Rollback()
 	defer db.Close()
-	user1 := User{Name: "anugrah", Password: "megamind", Transaction: tx}
+	user1 := User{"anugrah", "megamind", tx}
 	user2 := User{"red", "charizard", tx}
 	user1.Follow(user2)
 	assert.Equal(t, "You have already followed this user", user1.Follow(user2), "People should be able to follow their person of choice once")
@@ -43,7 +43,7 @@ func TestUser_Follow_2(t *testing.T) {
 	}
 	defer tx.Rollback()
 	defer db.Close()
-	user1 := User{Name: "anugrah", Password: "megamind", Transaction: tx}
+	user1 := User{"anugrah", "megamind", tx}
 	user2 := User{"bed", "charizard", tx}
 	assert.Equal(t, "You cannot follow an user who does not exist", user1.Follow(user2), "People should be able to follow existing users")
 }

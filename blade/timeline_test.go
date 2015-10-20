@@ -15,9 +15,9 @@ func TestUser_Timeline(t *testing.T) {
 		fmt.Println(err.Error())
 	}
 	msg := "Haha"
-	user1 := User{Name: "lol", Password: "lol", Transaction: tx}
+	user1 := User{"lol", "lol", tx}
 	_, tweetid := user1.Tweet(msg)
-	user2 := User{Name: "red", Password: "charizard", Transaction: tx}
+	user2 := User{"red", "charizard", tx}
 	user3 := User{"lol", "lol", tx}
 	user2.Follow(user3)
 	defer tx.Rollback()

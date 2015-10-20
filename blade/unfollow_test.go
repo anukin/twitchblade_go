@@ -14,7 +14,7 @@ func TestUser_Unfollow(t *testing.T) {
 	if err != nil {
 		fmt.Println(err.Error())
 	}
-	user1 := User{Name: "anugrah", Password: "megamind", Transaction: tx}
+	user1 := User{"anugrah", "megamind", tx}
 	user2 := User{"red", "charizard", tx}
 	user1.Follow(user2)
 	assert.Equal(t, "You have successfully unfollowed red", user1.Unfollow(user2), "People should be able to unfollow")
@@ -28,7 +28,7 @@ func TestUser_Unfollow_1(t *testing.T) {
 	if err != nil {
 		fmt.Println(err.Error())
 	}
-	user1 := User{Name: "anugrah", Password: "megamind", Transaction: tx}
+	user1 := User{"anugrah", "megamind", tx}
 	user2 := User{"red", "charizard", tx}
 	assert.Equal(t, "You do not follow this user", user1.Unfollow(user2), "People should be able to unfollow people whom they follow")
 	tx.Rollback()

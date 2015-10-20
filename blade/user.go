@@ -6,9 +6,9 @@ import (
 )
 
 type User struct {
-	Name        string
-	Password    string
-	Transaction *sql.Tx
+	Name     string
+	Password string
+	*sql.Tx
 }
 
 func Stream(username string, transaction *sql.Tx) []Tweetmodel {
@@ -31,7 +31,7 @@ func Stream(username string, transaction *sql.Tx) []Tweetmodel {
 func (u *User) Follow(usertofollow User) string {
 	name := usertofollow.Name
 	var username string
-	err := u.Transaction.QueryRow("SELECT name from users where name=$1", name).Scan(&username)
+	err := u.QueryRow("SELECT name from users where name=$1", name).Scan(&username)
 	switch {
 	case err == sql.ErrNoRows:
 		return "You cannot follow an user who does not exist"
@@ -39,20 +39,20 @@ func (u *User) Follow(usertofollow User) string {
 		if u.alreadyfollowing(name) {
 			return "You have already followed this user"
 		} else {
-			u.Transaction.Exec("INSERT INTO follow(username, following) VALUES($1, $2)", u.Name, name)
+			u.Exec("INSERT INTO follow(username, following) VALUES($1, $2)", u.Name, name)
 			return fmt.Sprintf("You have successfully followed %v", name)
 		}
 	}
 }
 
 func (u *User) alreadyfollowing(usertofollow string) bool {
-	res, _ := u.Transaction.Query("SELECT * from follow where username=$1 and following=$2", u.Name, usertofollow)
+	res, _ := u.Query("SELECT * from follow where username=$1 and following=$2", u.Name, usertofollow)
 	return (res.Next() == true)
 }
 
 func (u User) Login() string {
 	var username, password string
-	err := u.Transaction.QueryRow("SELECT name, password FROM users WHERE name=$1", u.Name).Scan(&username, &password)
+	err := u.QueryRow("SELECT name, password FROM users WHERE name=$1", u.Name).Scan(&username, &password)
 	if err == sql.ErrNoRows {
 		return "There is no user with that name, please try again or try registering!"
 	}
@@ -64,10 +64,10 @@ func (u User) Login() string {
 
 func (u *User) Register() string {
 	var username string
-	err := u.Transaction.QueryRow("SELECT name FROM users WHERE name=$1", u.Name).Scan(&username)
+	err := u.QueryRow("SELECT name FROM users WHERE name=$1", u.Name).Scan(&username)
 	switch {
 	case err == sql.ErrNoRows:
-		u.Transaction.Exec("INSERT INTO users(name, password) VALUES($1, $2)", u.Name, u.Password)
+		u.Exec("INSERT INTO users(name, password) VALUES($1, $2)", u.Name, u.Password)
 		return "Successfully registered"
 	default:
 		return "User exists with same name.Please try a new username"
@@ -76,13 +76,13 @@ func (u *User) Register() string {
 
 func (u *User) alreadyretweeted(tweetid int) bool {
 	var id int
-	err := u.Transaction.QueryRow("SELECT id from retweets where original_tweet_id = $1 and retweeted_by = $2", tweetid, u.Name).Scan(&id)
+	err := u.QueryRow("SELECT id from retweets where original_tweet_id = $1 and retweeted_by = $2", tweetid, u.Name).Scan(&id)
 	return (err != sql.ErrNoRows)
 }
 
 func (u *User) iteratedretweet(tweetid int) (bool, int) {
 	var id int
-	err := u.Transaction.QueryRow("SELECT original_tweet_id from retweets where retweet_tweet_id = $1", tweetid).Scan(&id)
+	err := u.QueryRow("SELECT original_tweet_id from retweets where retweet_tweet_id = $1", tweetid).Scan(&id)
 	return (err != sql.ErrNoRows), id
 }
 
@@ -96,16 +96,16 @@ func (u *User) Retweet(tweetid int) (string, int) {
 		} else {
 			var msg, originaluser string
 			var id int
-			u.Transaction.QueryRow("select username, tweet from tweets where id=$1", tweetid).Scan(&originaluser, &msg)
+			u.QueryRow("select username, tweet from tweets where id=$1", tweetid).Scan(&originaluser, &msg)
 			_, retweetid := u.Tweet(msg)
-			u.Transaction.QueryRow("INSERT INTO retweets(original_tweet_id, retweeted_by, retweet_tweet_id) VALUES($1, $2, $3) returning id", tweetid, u.Name, retweetid).Scan(&id)
+			u.QueryRow("INSERT INTO retweets(original_tweet_id, retweeted_by, retweet_tweet_id) VALUES($1, $2, $3) returning id", tweetid, u.Name, retweetid).Scan(&id)
 			return fmt.Sprintf("Successfully retweeted tweet by %s", originaluser), retweetid
 		}
 	}
 }
 
 func (u *User) Timeline() []Tweetmodel {
-	rows, err := u.Transaction.Query("select tweets.id, tweets.tweet from tweets INNER JOIN follow ON (tweets.username = follow.following) and follow.username=$1", u.Name)
+	rows, err := u.Query("select tweets.id, tweets.tweet from tweets INNER JOIN follow ON (tweets.username = follow.following) and follow.username=$1", u.Name)
 	if err != nil {
 		panic(err)
 	}
@@ -123,16 +123,16 @@ func (u *User) Timeline() []Tweetmodel {
 
 func (u User) Tweet(msg string) (string, int) {
 	var id int
-	u.Transaction.QueryRow("INSERT INTO tweets(username, tweet) VALUES($1, $2) returning id", u.Name, msg).Scan(&id)
+	u.QueryRow("INSERT INTO tweets(username, tweet) VALUES($1, $2) returning id", u.Name, msg).Scan(&id)
 	return "Successfullly tweeted", id
 }
 
 func (u *User) Unfollow(usertounfollow User) string {
-	res, _ := u.Transaction.Query("SELECT * from follow where username=$1 and following=$2", u.Name, usertounfollow.Name)
+	res, _ := u.Query("SELECT * from follow where username=$1 and following=$2", u.Name, usertounfollow.Name)
 	if res.Next() != true {
 		return "You do not follow this user"
 	} else {
-		u.Transaction.Exec("DELETE FROM follow WHERE name=$1 and following=$2)", u.Name, usertounfollow.Name)
+		u.Exec("DELETE FROM follow WHERE name=$1 and following=$2)", u.Name, usertounfollow.Name)
 		return fmt.Sprintf("You have successfully unfollowed %v", usertounfollow.Name)
 	}
 }

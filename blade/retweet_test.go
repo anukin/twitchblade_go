@@ -14,11 +14,11 @@ func TestUser_Retweet(t *testing.T) {
 	if err != nil {
 		fmt.Println(err.Error())
 	}
-	user1 := User{Name: "anugrah", Password: "megamind", Transaction: tx}
+	user1 := User{"anugrah", "megamind", tx}
 	_, tweetid := user1.Tweet("lol")
 	defer tx.Rollback()
 	defer db.Close()
-	user2 := User{Name: "red", Password: "charizard", Transaction: tx}
+	user2 := User{"red", "charizard", tx}
 	message, _ := user2.Retweet(tweetid)
 	assert.Equal(t, "Successfully retweeted tweet by anugrah", message, "User should be able to retweet")
 }
@@ -29,9 +29,9 @@ func TestUser_Retweet_1(t *testing.T) {
 	if err != nil {
 		fmt.Println(err.Error())
 	}
-	user1 := User{Name: "anugrah", Password: "megamind", Transaction: tx}
+	user1 := User{"anugrah", "megamind", tx}
 	_, tweetid := user1.Tweet("lol")
-	user2 := User{Name: "red", Password: "charizard", Transaction: tx}
+	user2 := User{"red", "charizard", tx}
 	user2.Retweet(tweetid)
 	message, _ := user2.Retweet(tweetid)
 	tx.Rollback()
@@ -45,11 +45,11 @@ func TestUser_Retweet_2(t *testing.T) {
 	if err != nil {
 		fmt.Println(err.Error())
 	}
-	user1 := User{Name: "anugrah", Password: "megamind", Transaction: tx}
+	user1 := User{"anugrah", "megamind", tx}
 	_, tweetid := user1.Tweet("lol")
-	user2 := User{Name: "red", Password: "charizard", Transaction: tx}
+	user2 := User{"red", "charizard", tx}
 	_, retweetid := user2.Retweet(tweetid)
-	user3 := User{Name: "lol", Password: "lol", Transaction: tx}
+	user3 := User{"lol", "lol", tx}
 	message, _ := user3.Retweet(retweetid)
 	tx.Rollback()
 	db.Close()

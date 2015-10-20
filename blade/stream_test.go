@@ -16,7 +16,7 @@ func TestStream(t *testing.T) {
 	}
 	defer tx.Rollback()
 	defer db.Close()
-	user1 := User{Name: "red", Password: "charizard", Transaction: tx}
+	user1 := User{"red", "charizard", tx}
 	msg := "I will be the very best"
 	_, tweetid := user1.Tweet(msg)
 	tweets := make([]Tweetmodel, 0)
