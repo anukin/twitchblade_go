@@ -70,7 +70,6 @@ func (u *User) Register() string {
 		u.Transaction.Exec("INSERT INTO users(name, password) VALUES($1, $2)", u.Name, u.Password)
 		return "Successfully registered"
 	default:
-		fmt.Println(err)
 		return "User exists with same name.Please try a new username"
 	}
 }

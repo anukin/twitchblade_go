@@ -18,7 +18,7 @@ func TestStream(t *testing.T) {
 	defer db.Close()
 	user1 := User{Name: "red", Password: "charizard", Transaction: tx}
 	msg := "I will be the very best"
-	_, tweet_id := user1.Tweet(msg)
+	_, tweetid := user1.Tweet(msg)
 	tweets := make([]Tweetmodel, 0)
-	assert.Equal(t, append(tweets, Tweetmodel{tweet_id, msg}), Stream("red", tx), "Stream should return all tweets by an user")
+	assert.Equal(t, append(tweets, Tweetmodel{tweetid, msg}), Stream("red", tx), "Stream should return all tweets by an user")
 }

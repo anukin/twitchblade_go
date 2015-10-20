@@ -15,11 +15,11 @@ func TestUser_Retweet(t *testing.T) {
 		fmt.Println(err.Error())
 	}
 	user1 := User{Name: "anugrah", Password: "megamind", Transaction: tx}
-	_, tweet_id := user1.Tweet("lol")
+	_, tweetid := user1.Tweet("lol")
 	defer tx.Rollback()
 	defer db.Close()
 	user2 := User{Name: "red", Password: "charizard", Transaction: tx}
-	message, _ := user2.Retweet(tweet_id)
+	message, _ := user2.Retweet(tweetid)
 	assert.Equal(t, "Successfully retweeted tweet by anugrah", message, "User should be able to retweet")
 }
 
@@ -30,10 +30,10 @@ func TestUser_Retweet_1(t *testing.T) {
 		fmt.Println(err.Error())
 	}
 	user1 := User{Name: "anugrah", Password: "megamind", Transaction: tx}
-	_, tweet_id := user1.Tweet("lol")
+	_, tweetid := user1.Tweet("lol")
 	user2 := User{Name: "red", Password: "charizard", Transaction: tx}
-	user2.Retweet(tweet_id)
-	message, _ := user2.Retweet(tweet_id)
+	user2.Retweet(tweetid)
+	message, _ := user2.Retweet(tweetid)
 	tx.Rollback()
 	db.Close()
 	assert.Equal(t, "You have already retweeted this tweet", message, "User should be able to retweet the same tweet only once")
@@ -46,11 +46,11 @@ func TestUser_Retweet_2(t *testing.T) {
 		fmt.Println(err.Error())
 	}
 	user1 := User{Name: "anugrah", Password: "megamind", Transaction: tx}
-	_, tweet_id := user1.Tweet("lol")
+	_, tweetid := user1.Tweet("lol")
 	user2 := User{Name: "red", Password: "charizard", Transaction: tx}
-	_, retweet_id := user2.Retweet(tweet_id)
+	_, retweetid := user2.Retweet(tweetid)
 	user3 := User{Name: "lol", Password: "lol", Transaction: tx}
-	message, _ := user3.Retweet(retweet_id)
+	message, _ := user3.Retweet(retweetid)
 	tx.Rollback()
 	db.Close()
 	assert.Equal(t, "Successfully retweeted tweet by anugrah", message, "User should be able to retweet those tweets of original tweet")
