@@ -11,6 +11,7 @@ type User struct {
 	*sql.Tx
 }
 
+//User is a normal user who can login, register, tweet, retweet, follow and unfollow
 func Stream(username string, transaction *sql.Tx) []Tweetmodel {
 	rows, err := transaction.Query("Select id, tweet from tweets where username=$1", username)
 	if err != nil {
