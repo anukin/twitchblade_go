@@ -19,7 +19,8 @@ func (auth *AuthenticationService) Authenticate() string {
 	} else {
 		if auth.Name == username && auth.Password == password {
 			return "Welcome to Twitchblade"
+		} else {
+			return "Your password is wrong, please try again!"
 		}
 	}
-	return "cuckoo"
 }
