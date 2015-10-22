@@ -16,6 +16,10 @@ func (auth *AuthenticationService) Authenticate() string {
 	if err == sql.ErrNoRows {
 		auth.Exec("INSERT INTO users(name, password) VALUES($1, $2)", auth.Name, auth.Password)
 		return "Successfully registered"
+	} else {
+		if auth.Name == username && auth.Password == password {
+			return "Welcome to Twitchblade"
+		}
 	}
-	return "Successfully registered"
+	return "cuckoo"
 }
